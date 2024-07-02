@@ -14,34 +14,8 @@ if calorie == "":
     return
 grafo = self._model.creaGrafo(int(calorie))
 
-// NB: in entrambi
-i
-casi
-il
-cast
-del valore(se
-necessario) va
-fatto
-dopo
-altrimenti
-da
-errore
 
-/ RIMPIRE
-IL
-DROPDOWN -> ricordati
-di
-chiamare
-self._controller.fillDD()
-NELLA
-VIEW
-DOPO
-// DOPO
-LA
-CREAZIONE
-DEL
-DD
-
+// RIMPIRE IL DROPDOWN 
 
 def fillDD(self):
     ann = "201"
@@ -50,50 +24,14 @@ def fillDD(self):
         self._view.dd_anno.options.append(ft.dropdown.Option(
             text=anno))
 
-// RIEMPIRE
-IL
-IL
-DD
-DA
-UNA
-COLONNA / TABELLA
-DEL
-DATABASE
-// NB
-se
-nazioni
-fosse
-costituita
-da
-Oggetti
-bisogna
-accertarsi
-che
-il
-metodo
-/ str
-stampa
-ciò
-che
-desideriamo
-inserire
-nel
-DD
+// RIEMPIRE IL DD
 
 nazioni = self._model.getNazioni
 for nazione in nazioni:
     self._view.dd_nazione.options.append(ft.dropdown.Option(
         text=nazione))
 
-// CREA
-GRAFO -> Ricordarsi
-la
-validazione
-dei
-campi
-se
-necessario
-
+// CREA GRAFO 
 
 def handle_grafo(self, e):
     nazione = self._view.dd_nazione.value
@@ -116,8 +54,7 @@ def handle_grafo(self, e):
                                                   f"{self._model.getNumEdges()} archi."))
     self._view.update_page()
 
-// CREATE
-ALERT:
+// CREATE ALERT:
 
 
 def create_alert(self, message):
@@ -126,16 +63,7 @@ def create_alert(self, message):
     dlg.open = True
     self._page.update()
 
-// UN
-DD
-CHE
-SI
-POPOLA
-AL
-CLICK
-SULL
-ALTRO
-
+// DD CHE SI CREA CLICCANDO UN ALTRO
 
 def fillDDanno(self):
     anni = self._model.getAnni
@@ -153,8 +81,7 @@ def fillDDforme(self, e):
     self._view.update_page()
 
 
-SU
-VIEW:
+SU VIEW:
 self.dd_anno = ft.Dropdown(label="Anno", on_change=self._controller.fillDDforme)
 self.dd_shape = ft.Dropdown(label="Shape")
 self._controller.fillDDanno()
