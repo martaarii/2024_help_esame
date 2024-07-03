@@ -1,22 +1,4 @@
-//CONTROLLER:
-
-  def handle_cerca(self,e):
-        numeroCondivisi=self._view.txt_attoriCondivisi.value
-        if numeroCondivisi=="":
-            self._view.create_alert("Inserire un numero massimo totale di attori condivisi")
-            return
-        direttore = self._view.dd_direttore.value
-        if direttore is None:
-            self._view.create_alert("Selezionare un direttore")
-            return
-        costo,listaNodi=self._model.getBestPath(direttore, int(numeroCondivisi))
-        self._view.txt_result.controls.append(ft.Text(f"La soluzione migliore è costituita da {costo} attori"))
-        for nodo in listaNodi:
-            self._view.txt_result.controls.append(ft.Text(f"{nodo}"))
-        self._view.update_page()
-
-
-//RICORSIONE CON UN NODO DI PARTENZA CON MASSIMO PESO TOTALR E VINCOLO SUL NUMERO DI ELEMENTI
+//RICORSIONE CON UN NODO DI PARTENZA CON MASSIMO PESO TOTALE E VINCOLO SUL NUMERO DI ELEMENTI
 
     def getBestPath(self, nodoInizialeString, limite):
         self._soluzione = []
@@ -241,6 +223,8 @@
                     self._ricorsione(parziale)
                     parziale.pop()
 
+ # from geopy import distance
+ #metodo geopy per calcolare la distanza, per importarlo --> from geopy.distance import distance
     def distanza(self,listaNodi):
         distanzaTot=0
         for i in range(0, len(listaNodi) - 1):
@@ -252,3 +236,36 @@
             distanzaTot+=distanza
             self.dista[f"{stato1.id}-{stato2.id}"]=distanza
         return distanzaTot
+
+
+
+//RICORSIONE SU ARCHI
+
+ def getBestPath(self):
+        self._soluzione = []
+        self._costoMigliore = 0
+        print(self.maggiori)
+        for arco in self.maggiori:
+            parziale = [arco]
+            self._ricorsione(parziale)
+            parziale.pop()
+        return self._costoMigliore, self._soluzione
+
+    def _ricorsione(self, parziale):
+        if self.peso(parziale) > self._costoMigliore:
+                    self._soluzione = copy.deepcopy(parziale)
+                    self._costoMigliore = self.peso(parziale)
+
+        for n in self.grafo.successors(parziale[-1][1]):
+            if (parziale[-1][1],n) in self.maggiori:
+                if (parziale[-1][1],n) not in parziale and (n,parziale[-1][1]) not in parziale:
+                    parziale.append((parziale[-1][1],n))
+                    self._ricorsione(parziale)
+                    parziale.pop()
+
+
+    def peso(self, listaArchi):
+        pesoTot = 0
+        for arco in listaArchi:
+            pesoTot += self.grafo[arco[0]][arco[1]]["weight"]
+        return pesoTot

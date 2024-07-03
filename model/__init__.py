@@ -14,6 +14,30 @@ class Model():
     def addEdges(self):
         self._grafo.clear_edges()
 
+    def addEdges2(self, *):
+        self.grafo.clear_edges()
+        allEdges = DAO.getConnessioni()
+        for connessione in allEdges:
+            nodo1 = self._idMap[connessione.v1]
+            nodo2 = self._idMap[connessione.v2]
+            if nodo1 in self.grafo.nodes and nodo2 in self.grafo.nodes:
+                if self.grafo.has_edge(nodo1, nodo2) == False:
+                    peso = DAO.getPeso(forma, anno, connessione.v1, connessione.v2)
+                    self.grafo.add_edge(nodo1, nodo2, weight=peso)
+
+    // METODO 3 archi -> itero sui nodi
+
+    def addEdges(self, distanza):
+        self.grafo.clear_edges()
+        for nodo1 in self._grafo:
+            for nodo2 in self._grafo:
+                if nodo1 != nodo2 and self._grafo.has_edge(nodo1, nodo2) == False:
+                    posizione1 = (nodo1.Latitude, nodo1.Longitude)
+                    posizione2 = (nodo2.Latitude, nodo2.Longitude)
+                    distanzaCalcolata = geodesic(posizione1, posizione2).kilometers
+                    if distanzaCalcolata <= distanza:
+                        self.grafo.add_edge(nodo1, nodo2, weight=abs(distanzaCalcolata))
+
     def ricorsione(self, parziale, v0):
         if v0 in parziale:
             if self.peso(parziale) > self._costBest:
